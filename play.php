@@ -4,6 +4,7 @@
 
 session_start();
 
+
  
  
 
@@ -61,8 +62,9 @@ session_start();
     
     $game->gameOver();
   
-    header("Location:play.php");
-    
+    if(!isset($_SESSION["result"])){
+        header("Location:play.php");
+    }
 
 //array_push($_SESSION["selected"],$choice);
 
@@ -105,8 +107,8 @@ session_start();
     <meta charset="utf-8">
     <title>Phrase Hunter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/styles.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/styles.css?v=<?php echo time(); ?>" rel="stylesheet">
+    <link href="css/animate.css?v=<?php echo time(); ?>" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 </head>
 
@@ -119,6 +121,6 @@ session_start();
         <?php echo $game->displayScore();?>
     </div>
 </div>
-<script src="inc/javascript/index.js"></script>
+<script src="inc/javascript/index.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

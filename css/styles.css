@@ -210,3 +210,9 @@ input[type=submit].correct {
 .lose a {
   color: var(--color-lose);
 }
+.correct{
+  background-color: green;
+}
+.incorrect{
+  background-color: red;
+}

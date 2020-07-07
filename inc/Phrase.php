@@ -1,14 +1,58 @@
 <?php
+
  $phrases= ["Believe in yourself","Never give up","I will be back","The world is yours"];
 
-// $keyrow1=["q","w","e","r","t","y","u","i","o","p"];
-// $keyrow2=["a","s","d","f","g","h","j","k","l"];
-// $keyrow3=["z","x","c","v","b","n",]
+ $keyrow1=["q","w","e","r","t","y","u","i","o","p"];
+ $keyrow2=["a","s","d","f","g","h","j","k","l"];
+$keyrow3=["z","x","c","v","b","n",];
 
+function check1(){
+    global $keyrow1;
+    foreach($keyrow1 as $k){
+    if(in_array($k,$_SESSION["allSelected"])&&!in_array($k,$_SESSION["selected"])){
+        echo "<button class= ".'"key incorrect"' ." value=$k name=choice  disabled>$k</button>";
+    }
+    else if(in_array($k,$_SESSION["selected"])){
+        echo  "<button class= ".'"key correct"'." value=$k name=choice  disabled>$k</button>";
+    }
+    else{
+       echo "<button class=key value=$k name=choice>$k</button>";
+    }
+}
+}
+
+function check2(){
+    global $keyrow2;
+    foreach($keyrow2 as $k){
+    if(in_array($k,$_SESSION["allSelected"])&&!in_array($k,$_SESSION["selected"])){
+        echo  "<button class= ".'"key incorrect"'." value=$k name=choice  disabled>$k</button>";
+    }
+    else if(in_array($k,$_SESSION["selected"])){
+        echo  "<button class= ".'"key correct"'." value=$k name=choice  disabled>$k</button>";
+    }
+    else{
+       echo "<button class=key value=$k name=choice>$k</button>";
+    }
+}
+}
+function check3(){
+    global $keyrow3;
+    foreach($keyrow3 as $k){
+    if(in_array($k,$_SESSION["allSelected"])&&!in_array($k,$_SESSION["selected"])){
+        echo  "<button class= ".'"key incorrect"'." value=$k name=choice  disabled>$k</button>";
+    }
+    else if(in_array($k,$_SESSION["selected"])){
+        echo  "<button class= ".'"key correct"'." value=$k name=choice correct disabled>$k</button>";
+    }
+    else{
+       echo "<button class=key value=$k name=choice>$k</button>";
+    }
+}
+}     
 
 $keyboardForm="<div id=qwerty class=section>
 <div class=keyrow>
-<form action=play.php method=get>
+<form  id =keyform action=play.php method=get>
     <button class=key value=q name=choice>q</button>
     <button class=key value=w name=choice>w</button>
     <button class=key value=e name=choice>e</button>
@@ -93,7 +137,7 @@ class Phrase{
            echo "<li class='letter $p show'>".$p."</li>";
           }
           else{
-            echo "<li class=hide space>".$p."</li>";
+            echo "<li class= space>".$p."</li>";
           }
         }           
        echo "</ul>
@@ -121,13 +165,13 @@ class Phrase{
 
 class Game{
     public $phrase;
-    public $lives=4;
+    public $lives;
 
      function __construct($obj){
 
         $this->phrase=$obj;
         $this->lives=5;
-     if(is_null($_SESSION["lives"])){
+     if(!isset($_SESSION["lives"])){
          $_SESSION["lives"]=$this->lives;
          }
 
@@ -136,8 +180,7 @@ class Game{
     public function check_for_win(){
         
         if(count($_SESSION["unique"])==count($_SESSION["selected"])){
-            echo "game won";
-            die();
+            $_SESSION["result"]="YOU WIN!";
           return true;
         }
         else{
@@ -148,8 +191,8 @@ class Game{
     public function check_for_loss(){
        
         if($_SESSION["lives"]<=0){
-            echo "game lost";
-            die();
+            
+            $_SESSION["result"]="YOU LOOSE!";
           return true;
         }
         else{
@@ -159,16 +202,14 @@ class Game{
 
 
   public function gameOver(){
-     
+    
       if($this->check_for_win()){
-          echo "game over!";
-          session_destroy();
-          die();
+        
+        header("Location: index.php");
       }
       else if ($this->check_for_loss()){
-        echo "game over you lose!";
-        session_destroy();
-        die();
+        
+        header("Location: index.php");
       }
       else{
           return false;
@@ -176,11 +217,31 @@ class Game{
   }
 
   public function displayKeyboard(){
-       global $keyboardForm;
-       echo $keyboardForm;
+    //    global $keyboardForm;
+    //    echo $keyboardForm;
+    global $keyrow1;
+    global $keyrow2;
+    global $keyrow3;
+   echo '<div id=qwerty class=section>
+   
+    <form action=play.php method=get>
+    <div class=keyrow>';
+     echo check1();
+    echo '</div>
+    <div class=keyrow>';
+    echo check2();
+    echo '</div>
+    <div class=keyrow>';
+    echo check3();
+    echo '</div>
+    </form>
+    </div>';
+
+
   }
 
   public function displayScore(){
+     
       $lost=5-$_SESSION["lives"];
       echo "<div id=scoreboard class=section>
       <ol>";
@@ -188,15 +249,10 @@ class Game{
            echo  "<li class=tries><img src=images/lostHeart.png height=35px widght=30px></li>";
          }
          for($i=0;$i<$_SESSION["lives"];$i++){
-            echo  "<li class=tries><img src=images/lostHeart.png height=35px widght=30px></li>";
+            echo  "<li class=tries><img src=images/liveHeart.png height=35px widght=30px></li>";
           }
-        //   <li class=tries><img src=images/liveHeart.png height=35px widght=30px></li>
-        //   <li class=tries><img src=images/liveHeart.png height=35px widght=30px></li>
-        //   <li class=tries><img src=images/liveHeart.png height=35px widght=30px></li>
-        //   <li class=tries><img src=images/liveHeart.png height=35px widght=30px></li>
-        //   <li class=tries><img src=images/liveHeart.png height=35px widght=30px></li>
+        
       "</ol>
   </div>";
   }
 }
-

@@ -15,7 +15,7 @@ class Game{
 
     }
 
-    public function check_for_win(){
+    public function checkForWin(){
     
        
         
@@ -32,7 +32,7 @@ class Game{
         }
     }
 
-    public function check_for_loss(){
+    public function checkForLoss(){
        
         if($_SESSION["lives"]<=0){
             
@@ -47,11 +47,11 @@ class Game{
 
   public function gameOver(){
     
-      if($this->check_for_win()){
+      if($this->checkForWin()){
         
         header("Location: index.php");
       }
-      else if ($this->check_for_loss()){
+      else if ($this->checkForLoss()){
         
         header("Location: index.php");
       }

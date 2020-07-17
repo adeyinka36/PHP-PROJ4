@@ -93,6 +93,7 @@ class Phrase{
    public $selected=[];
    public $splitPhrase=[];
    public $unique=[];
+   public $spaceRemoved=[];
    
 
    function __construct($phrase=null,$selected=[]){
@@ -111,7 +112,8 @@ class Phrase{
        }
       
        $stringWithoutSpace=str_replace(' ', '', $this->currentPhrase);
-        $this->splitPhrase=str_split($stringWithoutSpace,1);
+        $this->splitPhrase=str_split($this->currentPhrase,1);
+        $this->spaceRemoved=str_split($stringWithoutSpace,1);
         
     //    if (count($_SESSION["currentPhrase"])==0){
     //        $_SESSION["currentPhrase"]=str_split($stringWithoutSpace,1);
@@ -120,7 +122,7 @@ class Phrase{
      
     $unique=[];
     
-    foreach($this->splitPhrase as $r){
+    foreach($this->spaceRemoved as $r){
         array_push($unique,strtolower($r));
     }
 

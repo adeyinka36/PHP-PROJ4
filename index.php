@@ -20,7 +20,14 @@ if(isset($_GET["start"])&&_GET["start"]=="start"){
 	</head>
 
 	<body>
-		<div class="main-container">
+		<div class="main-container" <?php if(isset($_SESSION["result"]) && $_SESSION["result"]== "YOU WIN!" ){
+			echo "style=background-color:green;";}
+			else if(isset($_SESSION["result"]) && $_SESSION["result"]== "YOU LOSE!"){
+				echo "style=background-color:red;";
+			}
+			?>
+
+		})>
 		   <?php if(isset($_SESSION["result"])){
 			$result=$_SESSION["result"];
 			   echo"<h1>$result</h1>";
